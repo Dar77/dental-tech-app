@@ -9,23 +9,60 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
 import AddCircle from '@material-ui/icons/AddCircle';
 import TextField from '@material-ui/core/TextField';
+//redux related
+import { connect } from "react-redux";
+import uuidv1 from "uuid";
+import { addAlloy } from "../actions/index";
 
-class ResponsiveDialog extends React.Component {
-  state = {
-    open: false,
+//link redux to react
+const mapDispatchToProps = dispatch => {
+  return {
+    addAlloy: alloy => dispatch(addAlloy(alloy))
   };
+};
+
+class ConnectedResponsiveDialog extends React.Component {
+
+  constructor() {
+    super();
+    this.state = {
+      open: false
+    };
+    this.handleChangeName = this.handleChangeName.bind(this);
+    this.handleChangeDensity = this.handleChangeDensity.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+  }
 
   handleClickOpen = () => {
     this.setState({ open: true });
   };
 
-  handleClose = () => {
+  handleChangeName(event) {
+    console.log([event.target.id]: event.target.value, '[event.target.id]: event.target.value');
+    this.setState({ [event.target.id]: event.target.value });
+  }
+
+  handleChangeDensity(event) {
+    console.log([event.target.id]: event.target.value, '[event.target.id]: event.target.value');
+    this.setState({ [event.target.id]: event.target.value });
+  }
+
+  handleClose(event) {
+    event.preventDefault();
+    const { alloyName, specificDensity } = this.state;
+    const id = uuidv1();
+    if (alloyName && specificDensity !== undefined) {
+    this.props.addAlloy({ alloyName, specificDensity, id });
+    };
+    this.setState({ alloyName: '', specificDensity: '' }); // clear the text fields
     this.setState({ open: false });
+    console.log(alloyName, specificDensity, id, 'addAlloy function');
   };
 
   render() {
     const { fullScreen } = this.props;
-
+    const { alloyName } = this.state;
+    const { specificDensity } = this.state;
     return (
       <div>
         <Button onClick={this.handleClickOpen} size='small' color='primary'>
@@ -44,24 +81,29 @@ class ResponsiveDialog extends React.Component {
             </DialogContentText>
             <TextField
               autoFocus
+              required
               margin="dense"
-              id="name"
+              id="alloyName"
               label="Alloy Name"
-              type="name"
+              type="text"
+              value={alloyName}
+              onChange={this.handleChangeName}
               fullWidth
             />
             <TextField
-              autoFocus
               margin="dense"
-              id="specific-density"
+              required
+              id="specificDensity"
               label="Specific Density"
-              type="email"
+              type="text"
+              value={specificDensity}
+              onChange={this.handleChangeDensity}
               fullWidth
             />
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
-              Save and close
+              Save and Close
             </Button>
           </DialogActions>
         </Dialog>
@@ -70,8 +112,68 @@ class ResponsiveDialog extends React.Component {
   }
 }
 
-ResponsiveDialog.propTypes = {
+ConnectedResponsiveDialog.propTypes = {
   fullScreen: PropTypes.bool.isRequired,
 };
 
+const ResponsiveDialog = connect(null, mapDispatchToProps)(ConnectedResponsiveDialog);
 export default withMobileDialog()(ResponsiveDialog);
+
+
+
+//REMOVE
+/*
+// src/components/Form.js
+// src/components/Form.js
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import uuidv1 from "uuid";
+import { addAlloy } from "../actions/index";
+const mapDispatchToProps = dispatch => {
+  return {
+    addAlloy: alloy => dispatch(addAlloy(alloy))
+  };
+};
+class ConnectedForm extends Component {
+  constructor() {
+    super();
+    this.state = {
+      title: ""
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleChange(event) {
+    this.setState({ [event.target.id]: event.target.value });
+  }
+  handleSubmit(event) {
+    event.preventDefault();
+    const { title } = this.state;
+    const id = uuidv1();
+    this.props.addAlloy({ title, id });
+    this.setState({ title: "" });
+  }
+  render() {
+    const { title } = this.state;
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="title">Title</label>
+          <input
+            type="text"
+            className="form-control"
+            id="title"
+            value={title}
+            onChange={this.handleChange}
+          />
+        </div>
+        <button type="submit" className="btn btn-success btn-lg">
+          SAVE
+        </button>
+      </form>
+    );
+  }
+}
+const Form = connect(null, mapDispatchToProps)(ConnectedForm);
+export default Form;
+*/

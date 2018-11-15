@@ -45,7 +45,7 @@ class SimpleSelect extends React.Component {
             value={this.state.alloy}
             onChange={this.handleChange}
             inputProps={{
-              name: 'alloy',
+              name: 'alloys',
               id: 'alloy-simple',
             }}
           >

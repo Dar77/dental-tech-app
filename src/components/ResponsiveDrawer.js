@@ -10,6 +10,9 @@ import Hidden from '@material-ui/core/Hidden';
 import MenuIcon from '@material-ui/icons/Menu';
 import InsetDividers from './InsetDividers';
 import VerticalLinearStepper from './VerticalLinearStepper';
+// below - redux tutorial
+import List from './List';
+import Form from './Form';
 //import { mailFolderListItems, otherMailFolderListItems } from './tileData';
 
 const drawerWidth = 240;
@@ -116,6 +119,8 @@ class ResponsiveDrawer extends React.Component {
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <VerticalLinearStepper />
+          <List />
+          <Form />
         </main>
       </div>
     );
