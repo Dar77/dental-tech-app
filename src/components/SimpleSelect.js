@@ -10,6 +10,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+//redux related
+import { connect } from "react-redux";
+//map redux state to react props
+const mapStateToProps = state => {
+  return { alloys: state.alloys };
+};
 
 const styles = theme => ({
   root: {
@@ -25,9 +31,9 @@ const styles = theme => ({
   },
 });
 
-class SimpleSelect extends React.Component {
+class ConnectedSimpleSelect extends React.Component {
   state = {
-    alloy: '',
+    item: '',
   };
 
   handleChange = event => {
@@ -35,36 +41,37 @@ class SimpleSelect extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, alloys } = this.props;
 
     return (
       <form className={classes.root} autoComplete="off">
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor="alloy-simple">Select Alloy</InputLabel>
           <Select
-            value={this.state.alloy}
+            value={this.state.item}
             onChange={this.handleChange}
             inputProps={{
-              name: 'alloys',
-              id: 'alloy-simple',
+              name: 'item',
             }}
           >
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            <MenuItem value={'Argenco 75'}>Argenco 75</MenuItem>
-            <MenuItem value={'Argedent 52'}>Argedent 52</MenuItem>
-            <MenuItem value={'Argedent 98'}>Argedent 98</MenuItem>
+            {alloys.map(el => (
+              <MenuItem value={el.alloyName} key={el.id}>
+                {el.alloyName}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
-
       </form>
     );
   }
 }
 
-SimpleSelect.propTypes = {
+ConnectedSimpleSelect.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
+const SimpleSelect = connect(mapStateToProps)(ConnectedSimpleSelect);
 export default withStyles(styles)(SimpleSelect);
