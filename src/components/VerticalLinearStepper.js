@@ -9,6 +9,12 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import MediaCard from './MediaCard';
+//redux related
+import { connect } from "react-redux";
+//map redux state to react props
+const mapStateToProps = state => {
+  return { selected: state.selected };
+};
 
 const styles = theme => ({
   root: {
@@ -30,7 +36,7 @@ function getSteps() {
   return ['Select an alloy', 'Wax weight', 'Calculate Alloy Weight'];
 }
 
-function getStepContent(step) {
+function getStepContent(step, alloyUsed) {
   let text;
   let title;
   let showAddAlloy;
@@ -39,7 +45,7 @@ function getStepContent(step) {
       title = 'Alloy';
       text = 'Select the alloy you are using';
       showAddAlloy = true;
-      return  <MediaCard text={text} title={title} showAddAlloy={showAddAlloy} waxWeight={false} />;
+      return  <MediaCard text={text} title={title} showAddAlloy={showAddAlloy} alloyUsed={alloyUsed} waxWeight={false}/>;
     case 1:
       title = 'Wax';
       text = 'Weigh the wax pattern and reservoir';
@@ -55,9 +61,9 @@ function getStepContent(step) {
   }
 }
 
-class VerticalLinearStepper extends React.Component {
+class ConnectedVerticalLinearStepper extends React.Component {
   state = {
-    activeStep: 0,
+    activeStep: 0
   };
 
   handleNext = () => {
@@ -79,9 +85,9 @@ class VerticalLinearStepper extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, selected} = this.props;
     const steps = getSteps();
-    const { activeStep } = this.state;
+    const { activeStep, selectedItem } = this.state;
 
     return (
       <div className={classes.root}>
@@ -91,7 +97,7 @@ class VerticalLinearStepper extends React.Component {
               <Step key={label}>
                 <StepLabel>{label}</StepLabel>
                 <StepContent>
-                  {getStepContent(index)}
+                  {getStepContent(index, selected.alloyUsed)}
                   <div className={classes.actionsContainer}>
                     <div>
                       <Button
@@ -128,8 +134,9 @@ class VerticalLinearStepper extends React.Component {
   }
 }
 
-VerticalLinearStepper.propTypes = {
+ConnectedVerticalLinearStepper.propTypes = {
   classes: PropTypes.object,
 };
 
+const VerticalLinearStepper = connect(mapStateToProps)(ConnectedVerticalLinearStepper);
 export default withStyles(styles)(VerticalLinearStepper);

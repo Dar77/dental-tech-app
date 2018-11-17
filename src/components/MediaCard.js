@@ -12,6 +12,8 @@ import SimpleSelect from './SimpleSelect';
 import WaxField from './WaxField';
 import ResponsiveDialog from './ResponsiveDialog'
 
+window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
+
 const styles = {
   card: {
     maxWidth: 345,
@@ -39,6 +41,9 @@ function MediaCard(props) {
           </Typography>
           <Typography component='p'>
             {props.text}
+          </Typography>
+          <Typography gutterBottom variant='h5' component='h2'>
+            {props.alloyUsed}
           </Typography>
         </CardContent>
       </CardActionArea>

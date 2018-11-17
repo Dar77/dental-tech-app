@@ -61,8 +61,7 @@ class ConnectedResponsiveDialog extends React.Component {
 
   render() {
     const { fullScreen } = this.props;
-    const { alloyName } = this.state;
-    const { specificDensity } = this.state;
+    const { alloyName, specificDensity } = this.state;
     return (
       <div>
         <Button onClick={this.handleClickOpen} size='small' color='primary'>

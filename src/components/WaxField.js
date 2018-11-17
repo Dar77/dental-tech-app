@@ -4,6 +4,16 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
+//redux related
+import { connect } from "react-redux";
+import { addWaxWeight } from "../actions/index";
+
+//link redux to react
+const mapDispatchToProps = dispatch => {
+  return {
+    addAlloy: waxWeight => dispatch(addWaxWeight(waxWeight))
+  };
+};
 
 const styles = theme => ({
   container: {
@@ -36,6 +46,7 @@ class WaxField extends React.Component {
 
   render() {
     const { classes } = this.props;
+    const { waxWeight } = this.state;
 
     return (
       <form className={classes.container} noValidate autoComplete="off">

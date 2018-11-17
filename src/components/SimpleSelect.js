@@ -12,9 +12,16 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 //redux related
 import { connect } from "react-redux";
+import { selectedAlloy } from "../actions/index";
 //map redux state to react props
 const mapStateToProps = state => {
   return { alloys: state.alloys };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    selectedAlloy: selected => dispatch(selectedAlloy(selected))
+  };
 };
 
 const styles = theme => ({
@@ -32,26 +39,32 @@ const styles = theme => ({
 });
 
 class ConnectedSimpleSelect extends React.Component {
+
   state = {
-    item: '',
-  };
+    selectedItem: this .state
+  }
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
+    let alloyUsed = event.target.value;
+    if (event.target.value !== undefined) {
+      this.props.selectedAlloy({ alloyUsed });
+    };
   };
 
   render() {
     const { classes, alloys } = this.props;
+    const { selectedItem } = this.state;
 
     return (
       <form className={classes.root} autoComplete="off">
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor="alloy-simple">Select Alloy</InputLabel>
           <Select
-            value={this.state.item}
+            value={selectedItem}
             onChange={this.handleChange}
             inputProps={{
-              name: 'item',
+              name: 'selectedItem',
             }}
           >
             <MenuItem value="">
@@ -73,5 +86,5 @@ ConnectedSimpleSelect.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const SimpleSelect = connect(mapStateToProps)(ConnectedSimpleSelect);
+const SimpleSelect = connect(mapStateToProps, mapDispatchToProps)(ConnectedSimpleSelect);
 export default withStyles(styles)(SimpleSelect);
