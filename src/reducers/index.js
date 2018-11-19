@@ -1,11 +1,12 @@
 // src/reducers/index.js
 // redux reducers
-import { ADD_ALLOY, ADD_WAX_WEIGHT, SELECTED_ALLOY } from "../constants/action-types";
+import { ADD_ALLOY, ADD_WAX_WEIGHT, SELECTED_ALLOY, CALCULATE_ALLOY } from "../constants/action-types";
 
 const initialState = {
   alloys: [],
   waxWeight: 0,
-  selected: ''
+  selected: '',
+  calculate: 0
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -15,11 +16,15 @@ const rootReducer = (state = initialState, action) => {
     }
 
     case ADD_WAX_WEIGHT: {
-      return { ...state, waxWeight: [...state.waxWeight, action.payload] };
+      return { ...state, waxWeight: action.payload };
     }
 
     case SELECTED_ALLOY: {
     	return { ...state, selected: action.payload };
+    }
+
+    case CALCULATE_ALLOY: {
+      return { ...state, calculate: action.payload };
     }
 
     default:
