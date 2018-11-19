@@ -11,7 +11,7 @@ import { addWaxWeight } from "../actions/index";
 //link redux to react
 const mapDispatchToProps = dispatch => {
   return {
-    addAlloy: waxWeight => dispatch(addWaxWeight(waxWeight))
+    addWaxWeight: waxWeight => dispatch(addWaxWeight(waxWeight))
   };
 };
 
@@ -33,27 +33,26 @@ const styles = theme => ({
   },
 });
 
-class WaxField extends React.Component {
-  state = {
-    name: 'Cat in the Hat',
-  };
+class ConnectedWaxField extends React.Component {
 
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value,
-    });
+  handleChange = event => {
+    const wax = event.target.value;
+    if (wax !== undefined) {
+      this.props.addWaxWeight({ wax });
+    };
   };
 
   render() {
     const { classes } = this.props;
-    const { waxWeight } = this.state;
 
     return (
       <form className={classes.container} noValidate autoComplete="off">
         <TextField
-          id="standard-dense"
+          required
+          id="waxWeight"
           label="Wax Weight"
           className={classNames(classes.textField, classes.dense)}
+          onChange={this.handleChange}
           margin="dense"
         />
       </form>
@@ -61,8 +60,9 @@ class WaxField extends React.Component {
   }
 }
 
-WaxField.propTypes = {
+ConnectedWaxField.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
+const WaxField = connect(null, mapDispatchToProps)(ConnectedWaxField);
 export default withStyles(styles)(WaxField);

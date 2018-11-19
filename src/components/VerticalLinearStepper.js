@@ -11,9 +11,17 @@ import Typography from '@material-ui/core/Typography';
 import MediaCard from './MediaCard';
 //redux related
 import { connect } from "react-redux";
+import { calculateAlloy, selectedAlloy } from "../actions/index";
 //map redux state to react props
 const mapStateToProps = state => {
-  return { selected: state.selected };
+  return { alloys: state.alloys, selected: state.selected, waxWeight: state.waxWeight, calculate: state.calculate };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    calculateAlloy: calculate => dispatch(calculateAlloy(calculate)),
+    selectedAlloy: selected => dispatch(selectedAlloy(selected))
+  };
 };
 
 const styles = theme => ({
@@ -36,7 +44,7 @@ function getSteps() {
   return ['Select an alloy', 'Wax weight', 'Calculate Alloy Weight'];
 }
 
-function getStepContent(step, alloyUsed) {
+function getStepContent(step, alloyUsed, wax, result) {
   let text;
   let title;
   let showAddAlloy;
@@ -45,17 +53,17 @@ function getStepContent(step, alloyUsed) {
       title = 'Alloy';
       text = 'Select the alloy you are using';
       showAddAlloy = true;
-      return  <MediaCard text={text} title={title} showAddAlloy={showAddAlloy} alloyUsed={alloyUsed} waxWeight={false}/>;
+      return  <MediaCard text={text} title={title} showAddAlloy={showAddAlloy} alloyUsed={alloyUsed} weight={false}/>;
     case 1:
       title = 'Wax';
       text = 'Weigh the wax pattern and reservoir';
       showAddAlloy = false;
-      return <MediaCard text={text} title={title} showAddAlloy={showAddAlloy} waxWeight={true} />;
+      return <MediaCard text={text} title={title} showAddAlloy={showAddAlloy} wax={`${wax} grams`} weight={true} />;
     case 2:
       title = 'Alloy Weight';
       text = 'You will need to use this much alloy for your casting';
       showAddAlloy = false;
-      return <MediaCard text={text} title={title} showAddAlloy={showAddAlloy} waxWeight={false} />;
+      return <MediaCard text={text} title={title} showAddAlloy={showAddAlloy} result={`${result} grams`} weight={false} />;
     default:
       return 'Unknown step';
   }
@@ -70,6 +78,15 @@ class ConnectedVerticalLinearStepper extends React.Component {
     this.setState(state => ({
       activeStep: state.activeStep + 1,
     }));
+    if (this.state.activeStep === 1 && this.props.selected.data !== undefined && this.props.waxWeight.wax !== undefined) {
+      // calculate the weight of alloy needed
+      const calculate = this.props.selected.data * this.props.waxWeight.wax;
+      const result = calculate.toFixed(1);
+      console.log(result, 'result');
+      // add the result to redux state
+      this.props.calculateAlloy({ result });
+    }
+    console.log(this.state.activeStep, 'activeStep');
   };
 
   handleBack = () => {
@@ -82,12 +99,15 @@ class ConnectedVerticalLinearStepper extends React.Component {
     this.setState({
       activeStep: 0,
     });
+    let alloyUsed = '';
+    let data = 0;
+    this.props.selectedAlloy({ alloyUsed, data });
   };
 
   render() {
-    const { classes, selected} = this.props;
+    const { classes, selected, waxWeight, calculate } = this.props;
     const steps = getSteps();
-    const { activeStep, selectedItem } = this.state;
+    const { activeStep } = this.state;
 
     return (
       <div className={classes.root}>
@@ -97,7 +117,7 @@ class ConnectedVerticalLinearStepper extends React.Component {
               <Step key={label}>
                 <StepLabel>{label}</StepLabel>
                 <StepContent>
-                  {getStepContent(index, selected.alloyUsed)}
+                  {getStepContent(index, selected.alloyUsed, waxWeight.wax, calculate.result)}
                   <div className={classes.actionsContainer}>
                     <div>
                       <Button
@@ -138,5 +158,5 @@ ConnectedVerticalLinearStepper.propTypes = {
   classes: PropTypes.object,
 };
 
-const VerticalLinearStepper = connect(mapStateToProps)(ConnectedVerticalLinearStepper);
+const VerticalLinearStepper = connect(mapStateToProps, mapDispatchToProps)(ConnectedVerticalLinearStepper);
 export default withStyles(styles)(VerticalLinearStepper);

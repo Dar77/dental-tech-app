@@ -45,6 +45,12 @@ function MediaCard(props) {
           <Typography gutterBottom variant='h5' component='h2'>
             {props.alloyUsed}
           </Typography>
+          <Typography gutterBottom variant='h5' component='h2'>
+            {props.wax}
+          </Typography>
+          <Typography gutterBottom variant='h5' component='h2'>
+            {props.result}
+          </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
@@ -54,7 +60,7 @@ function MediaCard(props) {
             <ResponsiveDialog />
           </div>: ''
         }
-        {props.waxWeight === true?
+        {props.weight === true?
           <div>
             <WaxField />
           </div>: ''

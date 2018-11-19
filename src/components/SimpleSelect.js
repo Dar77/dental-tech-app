@@ -41,14 +41,26 @@ const styles = theme => ({
 class ConnectedSimpleSelect extends React.Component {
 
   state = {
-    selectedItem: this .state
+    selectedItem: this.state
   }
 
   handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
-    let alloyUsed = event.target.value;
+    this.setState({ [event.target.name]: event.target.value }); // display the selected menu item
+    const alloyUsed = event.target.value;
+
+    const { alloys} = this.props;
+    const l = alloys.length;
+    let data = '';
+    // find the specific density data that matches the selected alloy name
+    for (let i =0; i < l; i++) {
+      if (alloys[i].alloyName === alloyUsed) {
+        data = alloys[i].specificDensity;
+        console.log(data, 'data');
+      }
+    }
+    // add alloy name and specific density to the selected state
     if (event.target.value !== undefined) {
-      this.props.selectedAlloy({ alloyUsed });
+      this.props.selectedAlloy({ alloyUsed, data });
     };
   };
 
@@ -67,9 +79,6 @@ class ConnectedSimpleSelect extends React.Component {
               name: 'selectedItem',
             }}
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
             {alloys.map(el => (
               <MenuItem value={el.alloyName} key={el.id}>
                 {el.alloyName}
