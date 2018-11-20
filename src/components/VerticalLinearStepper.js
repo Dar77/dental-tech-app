@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import MediaCard from './MediaCard';
 //redux related
 import { connect } from "react-redux";
-import { calculateAlloy, selectedAlloy } from "../actions/index";
+import { calculateAlloy, selectedAlloy, addWaxWeight } from "../actions/index";
 //map redux state to react props
 const mapStateToProps = state => {
   return { alloys: state.alloys, selected: state.selected, waxWeight: state.waxWeight, calculate: state.calculate };
@@ -20,7 +20,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     calculateAlloy: calculate => dispatch(calculateAlloy(calculate)),
-    selectedAlloy: selected => dispatch(selectedAlloy(selected))
+    selectedAlloy: selected => dispatch(selectedAlloy(selected)),
+    addWaxWeight: waxWeight => dispatch(addWaxWeight(waxWeight))
   };
 };
 
@@ -58,12 +59,12 @@ function getStepContent(step, alloyUsed, wax, result) {
       title = 'Wax';
       text = 'Weigh the wax pattern and reservoir';
       showAddAlloy = false;
-      return <MediaCard text={text} title={title} showAddAlloy={showAddAlloy} wax={`${wax} grams`} weight={true} />;
+      return <MediaCard text={text} title={title} showAddAlloy={showAddAlloy} wax={wax? `${wax} grams` : ''} weight={true} />;
     case 2:
       title = 'Alloy Weight';
       text = 'You will need to use this much alloy for your casting';
       showAddAlloy = false;
-      return <MediaCard text={text} title={title} showAddAlloy={showAddAlloy} result={`${result} grams`} weight={false} />;
+      return <MediaCard text={text} title={title} showAddAlloy={showAddAlloy} result={result && result !== 0.0? `${result} grams` : ''} weight={false} />;
     default:
       return 'Unknown step';
   }
@@ -78,15 +79,15 @@ class ConnectedVerticalLinearStepper extends React.Component {
     this.setState(state => ({
       activeStep: state.activeStep + 1,
     }));
-    if (this.state.activeStep === 1 && this.props.selected.data !== undefined && this.props.waxWeight.wax !== undefined) {
+    // when the calculate step is reached, calculate the weight of alloy needed
+    if (this.state.activeStep === 1 && this.props.selected.data !== undefined && this.props.waxWeight.wax !== undefined
+      && this.props.waxWeight.wax !== 0) {
       // calculate the weight of alloy needed
       const calculate = this.props.selected.data * this.props.waxWeight.wax;
       const result = calculate.toFixed(1);
-      console.log(result, 'result');
       // add the result to redux state
       this.props.calculateAlloy({ result });
     }
-    console.log(this.state.activeStep, 'activeStep');
   };
 
   handleBack = () => {
@@ -101,7 +102,12 @@ class ConnectedVerticalLinearStepper extends React.Component {
     });
     let alloyUsed = '';
     let data = 0;
+    let wax = 0;
+    let result = 0;
+    // reset redux managed state for all stages
     this.props.selectedAlloy({ alloyUsed, data });
+    this.props.addWaxWeight({ wax });
+    this.props.calculateAlloy({ result });
   };
 
   render() {

@@ -38,12 +38,10 @@ class ConnectedResponsiveDialog extends React.Component {
   };
 
   handleChangeName(event) {
-    console.log([event.target.id]: event.target.value, '[event.target.id]: event.target.value');
     this.setState({ [event.target.id]: event.target.value });
   }
 
   handleChangeDensity(event) {
-    console.log([event.target.id]: event.target.value, '[event.target.id]: event.target.value');
     this.setState({ [event.target.id]: event.target.value });
   }
 
@@ -56,7 +54,6 @@ class ConnectedResponsiveDialog extends React.Component {
     };
     this.setState({ alloyName: '', specificDensity: '' }); // clear the text fields
     this.setState({ open: false });
-    console.log(alloyName, specificDensity, id, 'addAlloy function');
   };
 
   render() {

@@ -42,17 +42,27 @@ class ConnectedWaxField extends React.Component {
     };
   };
 
+  // prevent page reloading when enter is pressed in text field
+  // ref: https://github.com/mui-org/material-ui/issues/5393
+  catchReturn = event => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
+  }
+
   render() {
     const { classes } = this.props;
 
     return (
       <form className={classes.container} noValidate autoComplete="off">
         <TextField
+          autoFocus
           required
           id="waxWeight"
           label="Wax Weight"
           className={classNames(classes.textField, classes.dense)}
           onChange={this.handleChange}
+          onKeyPress={this.catchReturn}
           margin="dense"
         />
       </form>

@@ -46,8 +46,8 @@ class ConnectedSimpleSelect extends React.Component {
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value }); // display the selected menu item
-    const alloyUsed = event.target.value;
 
+    const alloyUsed = event.target.value;
     const { alloys} = this.props;
     const l = alloys.length;
     let data = '';
