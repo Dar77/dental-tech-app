@@ -5,8 +5,8 @@ import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 //redux related
-import { connect } from "react-redux";
-import { addWaxWeight } from "../actions/index";
+import { connect } from 'react-redux';
+import { addWaxWeight } from '../actions/index';
 
 //link redux to react
 const mapDispatchToProps = dispatch => {
@@ -35,11 +35,20 @@ const styles = theme => ({
 
 class ConnectedWaxField extends React.Component {
 
+  state = {
+    errorNum: ''
+  };
+
   handleChange = event => {
     const wax = event.target.value;
-    if (wax !== undefined) {
+    const numCheck = isNaN(wax);
+    //first check whether input value is not undefined and is a numerical value
+    if (wax !== undefined && numCheck === false) {
       this.props.addWaxWeight({ wax });
-    };
+      this.setState({ errorNum: '' });
+    } else {
+      this.setState({ errorNum: 'Please enter a number' });
+    }
   };
 
   // prevent page reloading when enter is pressed in text field
@@ -54,16 +63,18 @@ class ConnectedWaxField extends React.Component {
     const { classes } = this.props;
 
     return (
-      <form className={classes.container} noValidate autoComplete="off">
+      <form className={classes.container} noValidate autoComplete='off'>
         <TextField
           autoFocus
           required
-          id="waxWeight"
-          label="Wax Weight"
+          id='waxWeight'
+          label='Wax Weight'
+          type='number'
           className={classNames(classes.textField, classes.dense)}
           onChange={this.handleChange}
+          helperText={this.state.errorNum}
           onKeyPress={this.catchReturn}
-          margin="dense"
+          margin='dense'
         />
       </form>
     );

@@ -9,10 +9,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
 import AddCircle from '@material-ui/icons/AddCircle';
 import TextField from '@material-ui/core/TextField';
-import uuidv1 from "uuid"; // universally unique identifiers generator
+import uuidv1 from 'uuid'; // universally unique identifiers generator
 //redux related
-import { connect } from "react-redux";
-import { addAlloy } from "../actions/index";
+import { connect } from 'react-redux';
+import { addAlloy } from '../actions/index';
 
 //link redux to react
 const mapDispatchToProps = dispatch => {
@@ -26,7 +26,8 @@ class ConnectedResponsiveDialog extends React.Component {
   constructor() {
     super();
     this.state = {
-      open: false
+      open: false,
+      errorNum: ''
     };
     this.handleChangeName = this.handleChangeName.bind(this);
     this.handleChangeDensity = this.handleChangeDensity.bind(this);
@@ -39,11 +40,17 @@ class ConnectedResponsiveDialog extends React.Component {
 
   handleChangeName(event) {
     this.setState({ [event.target.id]: event.target.value });
-  }
+  };
 
   handleChangeDensity(event) {
-    this.setState({ [event.target.id]: event.target.value });
-  }
+    //first check whether input value is a number
+    if (isNaN(event.target.value)) {
+      this.setState({ errorNum: 'Please enter a number' });
+    } else {
+      this.setState({ [event.target.id]: event.target.value });
+      this.setState({ errorNum: '' });
+    }
+  };
 
   handleClose(event) {
     event.preventDefault();
@@ -68,9 +75,9 @@ class ConnectedResponsiveDialog extends React.Component {
           fullScreen={fullScreen}
           open={this.state.open}
           onClose={this.handleClose}
-          aria-labelledby="responsive-dialog-title"
+          aria-labelledby='responsive-dialog-title'
         >
-          <DialogTitle id="responsive-dialog-title">{"Add new alloy"}</DialogTitle>
+          <DialogTitle id='responsive-dialog-title'>{'Add new alloy'}</DialogTitle>
           <DialogContent>
             <DialogContentText>
               Refer to your alloy's data sheet for details.
@@ -78,27 +85,28 @@ class ConnectedResponsiveDialog extends React.Component {
             <TextField
               autoFocus
               required
-              margin="dense"
-              id="alloyName"
-              label="Alloy Name"
-              type="text"
+              margin='dense'
+              id='alloyName'
+              label='Alloy Name'
+              type='text'
               value={alloyName}
               onChange={this.handleChangeName}
               fullWidth
             />
             <TextField
-              margin="dense"
+              margin='dense'
               required
-              id="specificDensity"
-              label="Specific Density"
-              type="text"
+              id='specificDensity'
+              label='Specific Density'
+              type='number'
               value={specificDensity}
               onChange={this.handleChangeDensity}
+              helperText={this.state.errorNum}
               fullWidth
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
+            <Button onClick={this.handleClose} color='primary'>
               Save and Close
             </Button>
           </DialogActions>
@@ -106,7 +114,7 @@ class ConnectedResponsiveDialog extends React.Component {
       </div>
     );
   }
-}
+};
 
 ConnectedResponsiveDialog.propTypes = {
   fullScreen: PropTypes.bool.isRequired,
