@@ -20,7 +20,8 @@ const styles = {
     margin: 25,
   },
   media: {
-    height: 140,
+    //object-fit is not supported by IE 11.
+    objectFit: 'cover',
   },
 };
 
@@ -31,9 +32,12 @@ function MediaCard(props) {
     <Card className={classes.card}>
       <CardActionArea>
         <CardMedia
+          component="img"
+          alt="Gold dental alloy"
           className={classes.media}
-          image='/static/images/cards/contemplative-reptile.jpg'
-          title='Contemplative Reptile'
+          height="140"
+          image={props.image}
+          title="Gold dental alloy"
         />
         <CardContent>
           <Typography gutterBottom variant='h5' component='h2'>

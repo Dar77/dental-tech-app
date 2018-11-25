@@ -27,7 +27,7 @@ const mapDispatchToProps = dispatch => {
 
 const styles = theme => ({
   root: {
-    width: '90%',
+    width: '100%',
   },
   button: {
     marginTop: theme.spacing.unit,
@@ -48,23 +48,27 @@ function getSteps() {
 function getStepContent(step, alloyUsed, wax, result) {
   let text;
   let title;
+  let img;
   let showAddAlloy;
   switch (step) {
     case 0:
       title = 'Alloy';
       text = 'Select the alloy you are using';
+      img = '/images/gold-alloy-color.jpg';
       showAddAlloy = true;
-      return  <MediaCard text={text} title={title} showAddAlloy={showAddAlloy} alloyUsed={alloyUsed} weight={false}/>;
+      return  <MediaCard text={text} title={title} showAddAlloy={showAddAlloy} alloyUsed={alloyUsed} weight={false} image={img} />;
     case 1:
       title = 'Wax';
       text = 'Weigh the wax pattern and reservoir';
+      img = '/images/wax-bridges.jpg';
       showAddAlloy = false;
-      return <MediaCard text={text} title={title} showAddAlloy={showAddAlloy} wax={wax? `${wax} grams` : ''} weight={true} />;
+      return <MediaCard text={text} title={title} showAddAlloy={showAddAlloy} wax={wax? `${wax} grams` : ''} weight={true} image={img} />;
     case 2:
       title = 'Alloy Weight';
       text = 'You will need to use this much alloy for your casting';
+      img = '/images/gold-alloy-color.jpg';
       showAddAlloy = false;
-      return <MediaCard text={text} title={title} showAddAlloy={showAddAlloy} result={result && result !== 0.0? `${result} grams` : ''} weight={false} />;
+      return <MediaCard text={text} title={title} showAddAlloy={showAddAlloy} result={result && result !== 0.0? `${result} grams` : ''} weight={false} image={img} />;
     default:
       return 'Unknown step';
   }
