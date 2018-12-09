@@ -1,6 +1,6 @@
 // src/reducers/index.js
 // redux reducers
-import { ADD_ALLOY, ADD_WAX_WEIGHT, SELECTED_ALLOY, CALCULATE_ALLOY } from "../constants/action-types";
+import { ADD_ALLOY, ADD_WAX_WEIGHT, SELECTED_ALLOY, CALCULATE_ALLOY, DELETE_ALLOY } from "../constants/action-types";
 
 const initialState = {
   alloys: [],
@@ -25,6 +25,13 @@ const rootReducer = (state = initialState, action) => {
 
     case CALCULATE_ALLOY: {
       return { ...state, calculate: action.payload };
+    }
+
+    case DELETE_ALLOY: {
+      return {
+        ...state,
+        alloys: state.alloys.filter( (item, index) => index !== action.payload.index)
+      };
     }
 
     default:
