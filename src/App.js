@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 //redux
-import { Provider } from "react-redux";
-import store from "./store/index";
+import { Provider } from 'react-redux';
+import store from './store/index';
 //redux end
 import ResponsiveDrawer from './components/ResponsiveDrawer';
 import NavBar from './components/NavBar';

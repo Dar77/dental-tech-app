@@ -10,8 +10,9 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import MediaCard from './MediaCard';
 //redux related
-import { connect } from "react-redux";
-import { calculateAlloy, selectedAlloy, addWaxWeight } from "../actions/index";
+import { connect } from 'react-redux';
+import { calculateAlloy, selectedAlloy, addWaxWeight } from '../actions/index';
+
 //map redux state to react props
 const mapStateToProps = state => {
   return { alloys: state.alloys, selected: state.selected, waxWeight: state.waxWeight, calculate: state.calculate };
@@ -121,7 +122,7 @@ class ConnectedVerticalLinearStepper extends React.Component {
 
     return (
       <div className={classes.root}>
-        <Stepper activeStep={activeStep} orientation="vertical">
+        <Stepper activeStep={activeStep} orientation='vertical'>
           {steps.map((label, index) => {
             return (
               <Step key={label}>
@@ -138,8 +139,8 @@ class ConnectedVerticalLinearStepper extends React.Component {
                         Back
                       </Button>
                       <Button
-                        variant="contained"
-                        color="primary"
+                        variant='contained'
+                        color='primary'
                         onClick={this.handleNext}
                         className={classes.button}
                       >

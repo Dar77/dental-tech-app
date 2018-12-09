@@ -28,7 +28,7 @@ function InsetDividers(props) {
           <Avatar>
             <Grain />
           </Avatar>
-          <ListItemText primary="Alloy" secondary="Calculate quantity" />
+          <ListItemText primary='Alloy' secondary='Calculate quantity' />
         </ListItem>
         <li>
           <Divider inset />
@@ -37,7 +37,7 @@ function InsetDividers(props) {
           <Avatar>
             <AllOut />
           </Avatar>
-          <ListItemText primary="Expansion" secondary="Ratios" />
+          <ListItemText primary='Expansion' secondary='Ratios' />
         </ListItem>
         <li>
           <Divider inset />
@@ -46,14 +46,14 @@ function InsetDividers(props) {
           <Avatar>
             <Timer />
           </Avatar>
-          <ListItemText primary="Timer" secondary="Manage set times" />
+          <ListItemText primary='Timer' secondary='Manage set times' />
         </ListItem>
-        <Divider inset component="li" />
+        <Divider inset component='li' />
         <ListItem>
           <Avatar>
             <Palette />
           </Avatar>
-          <ListItemText primary="Shade" secondary="Manage shades" />
+          <ListItemText primary='Shade' secondary='Manage shades' />
         </ListItem>
       </List>
     </div>

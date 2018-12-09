@@ -1,6 +1,6 @@
 // src/reducers/index.js
 // redux reducers
-import { ADD_ALLOY, ADD_WAX_WEIGHT, SELECTED_ALLOY, CALCULATE_ALLOY, DELETE_ALLOY } from "../constants/action-types";
+import { ADD_ALLOY, ADD_WAX_WEIGHT, SELECTED_ALLOY, CALCULATE_ALLOY, DELETE_ALLOY } from '../constants/action-types';
 
 const initialState = {
   alloys: [],

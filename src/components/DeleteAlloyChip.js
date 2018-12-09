@@ -8,6 +8,7 @@ import DoneIcon from '@material-ui/icons/Done';
 //redux related
 import { connect } from 'react-redux';
 import { deleteAlloy, selectedAlloy } from '../actions/index';
+
 //map redux state to react props
 const mapStateToProps = state => {
   return { alloys: state.alloys, selected: state.selected };
@@ -24,7 +25,7 @@ const styles = theme => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
-    flexWrap: 'wrap',
+    flexWrap: 'wrap'
   },
   chip: {
     margin: theme.spacing.unit,

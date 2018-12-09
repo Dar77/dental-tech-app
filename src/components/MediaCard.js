@@ -33,12 +33,12 @@ function MediaCard(props) {
     <Card className={classes.card}>
       <CardActionArea>
         <CardMedia
-          component="img"
-          alt="Gold dental alloy"
+          component='img'
+          alt='Gold dental alloy'
           className={classes.media}
-          height="140"
+          height='140'
           image={props.image}
-          title="Gold dental alloy"
+          title='Gold dental alloy'
         />
         <CardContent>
           <Typography gutterBottom variant='h5' component='h2'>

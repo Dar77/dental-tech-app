@@ -11,8 +11,9 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 //redux related
-import { connect } from "react-redux";
-import { selectedAlloy } from "../actions/index";
+import { connect } from 'react-redux';
+import { selectedAlloy } from '../actions/index';
+
 //map redux state to react props
 const mapStateToProps = state => {
   return { alloys: state.alloys };
@@ -68,9 +69,9 @@ class ConnectedSimpleSelect extends React.Component {
     const { selectedItem } = this.state;
 
     return (
-      <form className={classes.root} autoComplete="off">
+      <form className={classes.root} autoComplete='off'>
         <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="alloy-simple">Select Alloy</InputLabel>
+          <InputLabel htmlFor='alloy-simple'>Select Alloy</InputLabel>
           <Select
             value={selectedItem}
             onChange={this.handleChange}
