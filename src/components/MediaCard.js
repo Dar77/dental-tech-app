@@ -10,7 +10,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import SimpleSelect from './SimpleSelect';
 import WaxField from './WaxField';
-import ResponsiveDialog from './ResponsiveDialog'
+import ResponsiveDialog from './ResponsiveDialog';
+import RemoveAlloyDialog from './RemoveAlloyDialog';
 
 window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
 
@@ -62,6 +63,7 @@ function MediaCard(props) {
           <div>
             <SimpleSelect />
             <ResponsiveDialog />
+            <RemoveAlloyDialog />
           </div>: ''
         }
         {props.weight === true?
@@ -79,3 +81,6 @@ MediaCard.propTypes = {
 };
 
 export default withStyles(styles)(MediaCard);
+
+//const MediaCard = connect(mapStateToProps)(ConnectedMediaCard);
+//export default withStyles(styles)(MediaCard);

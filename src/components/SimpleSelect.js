@@ -55,7 +55,6 @@ class ConnectedSimpleSelect extends React.Component {
     for (let i =0; i < l; i++) {
       if (alloys[i].alloyName === alloyUsed) {
         data = alloys[i].specificDensity;
-        console.log(data, 'data');
       }
     }
     // add alloy name and specific density to the selected state
